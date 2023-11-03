@@ -3,11 +3,11 @@
     ~~~~~
 """
 from flask_wtf import FlaskForm
-from wtforms import BooleanField
+from wtforms import BooleanField, SubmitField
 from wtforms import StringField
 from wtforms import TextAreaField
 from wtforms import PasswordField
-from wtforms.validators import InputRequired
+from wtforms.validators import InputRequired, DataRequired, EqualTo, Length
 from wtforms.validators import ValidationError
 
 from wiki.core import clean_url
@@ -55,3 +55,10 @@ class LoginForm(FlaskForm):
             return
         if not user.check_password(field.data):
             raise ValidationError('Username and password do not match.')
+
+
+class AccountForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired(), Length(min=4, max=20)])
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('Sign Up')

@@ -22,6 +22,8 @@ from wiki.web import current_wiki
 from wiki.web import current_users
 from wiki.web.user import protect
 
+from TeamBasicRiki.Riki.wiki.web.forms import AccountForm
+from TeamBasicRiki.Riki.wiki.web.user import UserManager
 
 bp = Blueprint('wiki', __name__)
 
@@ -130,6 +132,7 @@ def search():
 
 
 @bp.route('/user/login/', methods=['GET', 'POST'])
+@protect
 def user_login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -155,9 +158,23 @@ def user_index():
     pass
 
 
+@bp.route('/register', methods=['GET', 'POST'])
+@protect
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        user = user_manager.add_user(username, password)
+
+        if user:
+            return redirect(url_for('login'))  # Redirect to the login page
+        else:
+            return "Username already exists. Please choose a different one."
+
+    return render_template('register.html')
 @bp.route('/user/create/')
 def user_create():
-    pass
+    return render_template('register.html')
 
 
 @bp.route('/user/<int:user_id>/')
