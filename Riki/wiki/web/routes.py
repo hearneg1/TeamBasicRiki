@@ -2,6 +2,8 @@
     Routes
     ~~~~~~
 """
+import os
+
 from flask import Blueprint
 from flask import flash
 from flask import redirect
@@ -21,6 +23,8 @@ from wiki.web.forms import URLForm
 from wiki.web import current_wiki
 from wiki.web import current_users
 from wiki.web.user import protect
+
+from wiki.web.file_storage import DownloadFiles, UploadFiles
 
 bp = Blueprint('wiki', __name__)
 
@@ -183,4 +187,8 @@ def page_not_found(error):
 @bp.route('/file_storage/', methods=['GET', 'POST'])
 @protect
 def file_storage():
-    return render_template('file_storage.html')
+    directory = "."
+    downloader = DownloadFiles(directory)
+    uploader = UploadFiles(directory)
+    files = downloader.get_downloadable_files()
+    return render_template('file_storage.html', files=files) # could pass upload/download object --> not sure how we should call from view

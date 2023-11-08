@@ -2,6 +2,15 @@
 
 {% block title -%}File Storage{%- endblock title %}
 {% block content %}
-<h1>Welcome to File Storage!!!!</h1>
-<h3>Table goes here?</h3>
+    <h2 class="page-header">Downloadable Files</h2>
+    <table class="table table-striped">
+        <tr>
+            <th>File Name</th>
+        </tr>
+        {% for file in files %}
+            <tr>
+                <td>{{ file }}</td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock content %}
