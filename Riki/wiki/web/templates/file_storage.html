@@ -3,13 +3,18 @@
 {% block title -%}File Storage{%- endblock title %}
 {% block content %}
     <h2 class="page-header">Downloadable Files</h2>
+    <button class="btn btn-success" style="float: right">Upload File</button>
     <table class="table table-striped">
         <tr>
             <th>File Name</th>
+            <th>Download</th>
+            <th>Delete</th>
         </tr>
         {% for file in files %}
             <tr>
                 <td>{{ file }}</td>
+                <td><a href="{{ url_for('wiki.download_file', file_name=file) }}" class="btn">Download</a></td>
+                <td><a href="{{ url_for('wiki.delete_file', file_name=file) }}" class="btn btn-danger">Delete</a></td>
             </tr>
         {% endfor %}
     </table>

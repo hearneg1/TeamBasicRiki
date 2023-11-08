@@ -192,3 +192,13 @@ def file_storage():
     uploader = UploadFiles(directory)
     files = downloader.get_downloadable_files()
     return render_template('file_storage.html', files=files) # could pass upload/download object --> not sure how we should call from view
+
+@bp.route('/delete_file/<path:file_name>/')
+@protect
+def delete_file(file_name):
+    return redirect(url_for('wiki.file_storage'))
+
+@bp.route('/download_file/<path:file_name>/')
+@protect
+def download_file(file_name):
+    return redirect(url_for('wiki.file_storage'))
