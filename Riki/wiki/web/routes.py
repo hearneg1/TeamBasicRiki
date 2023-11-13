@@ -190,7 +190,7 @@ def page_not_found(error):
 def file_storage():
     file_manager = FileManager(DIRECTORY)
     files = file_manager.get_downloadable_files()
-    return render_template('file_storage.html', files=files) # could pass upload/download object --> not sure how we should call from view
+    return render_template('file_storage.html', files=files)
 
 @bp.route('/delete_file/<path:file_name>/')
 @protect

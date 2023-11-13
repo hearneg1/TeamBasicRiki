@@ -1,5 +1,5 @@
 import os
-from flask import send_file, send_from_directory
+from flask import send_from_directory
 
 class FileManager(object):
     def __init__(self, directory):
@@ -8,12 +8,9 @@ class FileManager(object):
     def get_downloadable_files(self):
         return os.listdir(self._directory)
 
-    # def download_file(self, file_name):
-    #     return send_file(os.path.join(self._directory, file_name), as_attachment=True)
-
     def download_file(self, file_name):
-        dir_path = os.path.join(os.getcwd(), self._directory)
-        return send_from_directory(dir_path, file_name, as_attachment=True)
+       dir_path = os.path.join(os.getcwd(), self._directory)
+       return send_from_directory(dir_path, file_name, as_attachment=True)
 
     def upload_file(self, file):
         current_files = self.get_downloadable_files()
