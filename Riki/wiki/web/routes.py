@@ -195,6 +195,12 @@ def file_storage():
 @bp.route('/delete_file/<path:file_name>/')
 @protect
 def delete_file(file_name):
+    file_manager = FileManager(DIRECTORY)
+    success = file_manager.delete_file(file_name)
+    if success:
+        flash(f"Successfully deleted file {file_name}")
+    else:
+        flash(f"Unknown issue... failed to delete file {file_name}")
     return redirect(url_for('wiki.file_storage'))
 
 @bp.route('/download_file/<path:file_name>/')
@@ -210,7 +216,7 @@ def upload_file():
         file_manager = FileManager(DIRECTORY)
         success = file_manager.upload_file(file)
         if success:
-            flash("Successfully uploaded file!!!")
+            flash(f"Successfully uploaded file {file.filename}")
         else:
-            flash("Upload failed... file already exists!")
+            flash(f"Upload failed... file {file.filename} already exists!")
     return redirect(url_for('wiki.file_storage'))
