@@ -10,7 +10,7 @@ class FileManager(object):
 
     def upload_file(self, file):
         current_files = self.get_downloadable_files()
-        if file.filename in current_files:
+        if file.filename == "" or file.filename in current_files:
             return False
         file.save(os.path.join(self._directory, file.filename))
         return True

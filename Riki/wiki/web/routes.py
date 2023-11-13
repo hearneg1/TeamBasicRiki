@@ -217,6 +217,8 @@ def upload_file():
         success = file_manager.upload_file(file)
         if success:
             flash(f"Successfully uploaded file {file.filename}")
+        elif file.filename == "":
+            flash("Please select a file to upload first!!!")
         else:
             flash(f"Upload failed... file {file.filename} already exists!")
     return redirect(url_for('wiki.file_storage'))
