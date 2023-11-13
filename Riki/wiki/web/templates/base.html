@@ -31,6 +31,9 @@
 								{% else %}
 									<li><a href="{{ url_for('wiki.user_logout') }}">Logout</a></li>
 								{% endif %}
+                                {% if current_user.is_authenticated %}
+                                        <li><a href="{{ url_for('wiki.user_index') }}">Account</a></li>
+                                {% endif %}
 							</ul>
 						</div>
 					</div>

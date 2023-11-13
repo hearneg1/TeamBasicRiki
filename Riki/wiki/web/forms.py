@@ -3,11 +3,11 @@
     ~~~~~
 """
 from flask_wtf import FlaskForm
-from wtforms import BooleanField, SubmitField
+from wtforms import BooleanField, SubmitField, EmailField
 from wtforms import StringField
 from wtforms import TextAreaField
 from wtforms import PasswordField
-from wtforms.validators import InputRequired, DataRequired, EqualTo, Length
+from wtforms.validators import InputRequired, DataRequired, EqualTo, Length, Email
 from wtforms.validators import ValidationError
 
 from wiki.core import clean_url
@@ -57,8 +57,29 @@ class LoginForm(FlaskForm):
             raise ValidationError('Username and password do not match.')
 
 
-class AccountForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired(), Length(min=4, max=20)])
-    password = PasswordField('Password', validators=[DataRequired()])
-    confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Sign Up')
+# class AccountForm(FlaskForm):
+#     username = StringField("", [InputRequired()])
+#     password = PasswordField("", [InputRequired()])
+#     confirmPassword = PasswordField("", [InputRequired()])
+#     email = EmailField("", [InputRequired()])
+
+
+from wtforms.validators import InputRequired, Length, Email, EqualTo
+
+
+class RegisterForm(FlaskForm):
+    username = StringField("", [InputRequired(), Length(min=4, max=24)])
+    password = PasswordField("", [InputRequired()])
+    confirmPassword = PasswordField("", [InputRequired(), EqualTo('password', message='Passwords must match')])
+    email = EmailField("", [InputRequired(), Email()])
+
+    def validate_username(form, field):
+        user = current_users.get_user(field.data)
+        if user:
+            raise ValidationError('This username already exists.')
+
+    def validate_password(form, field):
+        password = form.password.data
+        confirmPassword = form.confirmPassword.data
+        if password != confirmPassword:
+            raise ValidationError('Passwords do not match')
