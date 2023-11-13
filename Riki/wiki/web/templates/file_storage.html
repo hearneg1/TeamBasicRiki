@@ -3,7 +3,11 @@
 {% block title -%}File Storage{%- endblock title %}
 {% block content %}
     <h2 class="page-header">Downloadable Files</h2>
-    <button class="btn btn-success" style="float: right">Upload File</button>
+    <form action = {{ url_for("wiki.upload_file") }} method = "post" enctype="multipart/form-data">
+        <label for="file" class="label label-inverse">Upload File</label>
+        <input type="file" name="file" class="btn btn-info"/>
+        <input type="submit" class="btn btn-success" value="Upload">
+    </form>
     <table class="table table-striped">
         <tr>
             <th>File Name</th>

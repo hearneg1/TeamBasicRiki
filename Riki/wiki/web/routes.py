@@ -201,3 +201,13 @@ def delete_file(file_name):
 @protect
 def download_file(file_name):
     return redirect(url_for('wiki.file_storage'))
+
+@bp.route('/upload_file/', methods=['GET', 'POST'])
+@protect
+def upload_file():
+    if request.method == 'POST':
+        file = request.files['file']
+        file_manager = FileManager(DIRECTORY)
+        success = file_manager.upload_file(file)
+        return success
+    return redirect(url_for('wiki.file_storage'))
