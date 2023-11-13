@@ -5,18 +5,41 @@
 {% endblock title %}
 
 {% block content %}
-  <div id="confirmDelete" class="modal hide fade" aria-hidden="true">
-    <div class="modal-header">
-      <h3>Are you sure?</h3>
+    <div id="confirmDelete" class="modal hide fade" aria-hidden="true">
+        <div class="modal-header">
+            <h3>Are you sure?</h3>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to delete {{ page.title }}?  This cannot be undone.</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">No</a>
+            <a href="{{ url_for('wiki.delete', url=page.url) }}" class="btn btn-danger">Yes, delete.</a>
+        </div>
     </div>
-    <div class="modal-body">
-      <p>Are you sure you want to delete {{ page.title }}?  This cannot be undone.</p>
+
+    <div id="download" class="modal hide fade" aria-hidden="true">
+        <div class="modal-header">
+            <h3>Download Page</h3>
+        </div>
+        <div class="modal-body">
+            <p>To download the page, please select the file type you want to download the page in using the dropdown box below and press convert</p>
+            <div class="form-group">
+                <label for="fileType">Select File Type:</label>
+                <select class="form-control" id="fileType">
+                    <option value="md">MD</option>
+                    <option value="pdf">PDF</option>
+                    <option value="txt">TXT</option>
+                    <option value="html">HTML</option>
+                    <option value="docx">DOCX</option>
+                </select>
+            </div>
+            <a href="{{ url_for('wiki.convert', url=page.url) }}" class="btn btn-primary">Convert</a>
+        </div>
+        <div class="modal-footer">
+            <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+        </div>
     </div>
-    <div class="modal-footer">
-      <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">No</a>
-      <a href="{{ url_for('wiki.delete', url=page.url) }}" class="btn btn-danger">Yes, delete.</a>
-    </div>
-  </div>
 	{{ page }}
 {% endblock content %}
 
@@ -32,7 +55,8 @@
 <h3>Actions</h3>
 <ul class="nav nav-tabs nav-stacked">
 	<li><a href="{{ url_for('wiki.edit', url=page.url) }}">Edit</a></li>
-  <li><a href="{{ url_for('wiki.move', url=page.url) }}">Move</a></li>
-  <li><a href="#confirmDelete" data-toggle="modal" class="text-error">Delete</a></li>
+    <li><a href="{{ url_for('wiki.move', url=page.url) }}">Move</a></li>
+    <li><a href="#download" data-toggle="modal">Download Page</a></li>
+    <li><a href="#confirmDelete" data-toggle="modal" class="text-error">Delete</a></li>
 </ul>
 {% endblock sidebar %}

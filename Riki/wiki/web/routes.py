@@ -95,6 +95,13 @@ def move(url):
     return render_template('move.html', form=form, page=page)
 
 
+@bp.route('/convert/<path:url>/', methods=['POST'])
+@protect
+def convert(url):
+    page = current_wiki.get_or_404(url)
+    filetype = request.form['fileType']
+
+
 @bp.route('/delete/<path:url>/')
 @protect
 def delete(url):
