@@ -7,7 +7,8 @@ from wtforms import BooleanField, SubmitField, EmailField
 from wtforms import StringField
 from wtforms import TextAreaField
 from wtforms import PasswordField
-from wtforms.validators import InputRequired, DataRequired, EqualTo, Length, Email
+from wtforms.validators import InputRequired,Length, Email, EqualTo
+
 from wtforms.validators import ValidationError
 
 from wiki.core import clean_url
@@ -66,20 +67,19 @@ class LoginForm(FlaskForm):
 
 from wtforms.validators import InputRequired, Length, Email, EqualTo
 
-
 class RegisterForm(FlaskForm):
     username = StringField("", [InputRequired(), Length(min=4, max=24)])
     password = PasswordField("", [InputRequired()])
     confirmPassword = PasswordField("", [InputRequired(), EqualTo('password', message='Passwords must match')])
     email = EmailField("", [InputRequired(), Email()])
 
-    def validate_username(form, field):
+    def validate_username(self, field):
         user = current_users.get_user(field.data)
         if user:
             raise ValidationError('This username already exists.')
 
-    def validate_password(form, field):
-        password = form.password.data
-        confirmPassword = form.confirmPassword.data
+    def validate_password(self, field):
+        password = self.password.data
+        confirmPassword = self.confirmPassword.data
         if password != confirmPassword:
             raise ValidationError('Passwords do not match')

@@ -2,7 +2,7 @@
     Routes
     ~~~~~~
 """
-import usermanager
+from wiki.web.user import UserManager
 from flask import Blueprint
 from flask import flash
 from flask import redirect
@@ -23,7 +23,9 @@ from wiki.web import current_wiki
 from wiki.web import current_users
 from wiki.web.user import protect
 
-from TeamBasicRiki.Riki.wiki.web.forms import RegisterForm
+from wiki.web.forms import RegisterForm
+
+from config import USER_DIR
 
 bp = Blueprint('wiki', __name__)
 
@@ -155,7 +157,15 @@ def user_logout():
 @bp.route('/user/')
 @login_required
 def user_index():
-    return render_template("account.html")
+    user_data = {
+        'name': current_user.name,
+        'email': current_user.get('email'),
+        'active': current_user.is_active(),
+        'authenticated': current_user.is_authenticated(),
+        'roles': current_user.get('roles'),
+        # Add other user data fields as needed
+    }
+    return render_template("account.html", user=user_data)
 
 
 @bp.route('/user/edit')
@@ -170,11 +180,12 @@ def user_create():
         username = form.username.data
         password = form.password.data
         email = form.email.data
-        user_added = usermanager.add_user(username, password, email=email)
+        user_manager = UserManager(USER_DIR)
+        user_added = user_manager.add_user(username, password, email=email)
 
         if (user_added):
-            flash('Login successful.', 'success')
-            return redirect(redirect(url_for('wiki.user_login')))
+            flash('User added successful.', 'success')
+            return redirect(url_for('wiki.user_login'))
         else:
             flash('Username already exists. Please choose another username.', 'danger')
     return render_template('register.html', form=form)
@@ -185,9 +196,21 @@ def user_admin(user_id):
     pass
 
 
-@bp.route('/user/delete/<int:user_id>/')
+# ... (your existing code)
+
+@bp.route('/user/delete/<int:user_id>/', methods=['GET', 'POST'])
+@protect
 def user_delete(user_id):
-    pass
+    user = current_users.get_user(user_id)
+
+    if request.method == 'POST':
+        # Perform the user deletion logic here
+        user_manager = UserManager(USER_DIR)
+        user_manager.delete_user(user.name)
+        flash('User {} has been deleted.'.format(user.name), 'success')
+        return redirect(url_for('wiki.index'))
+
+    return render_template('delete_user.html', user=user)
 
 
 """

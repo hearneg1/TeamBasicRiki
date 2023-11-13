@@ -1,5 +1,6 @@
 {
   "name": {
+    "id": 0,
     "active": true,
     "authentication_method": "cleartext",
     "password": "1234",
@@ -7,6 +8,7 @@
     "roles": []
   },
   "sam": {
+    "id": 1,
     "active": true,
     "authentication_method": "cleartext",
     "password": "1234",

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title -%}
+    Delete User
+{%- endblock title %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card mt-5">
+                <div class="card-header">
+                    <h2 class="text-center">Delete User</h2>
+                </div>
+                <div class="card-body">
+                    <p class="text-center">Are you sure you want to delete the user {{ user.name }}?</p>
+
+                    <form method="post" action="{{ url_for('wiki.user_delete', user_id=user.name) }}" class="text-center">
+                        <button type="submit" class="btn btn-danger">Delete</button>
+                    </form>
+
+                    <a href="{{ url_for('wiki.user_index') }}" class="btn btn-secondary mt-2">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
