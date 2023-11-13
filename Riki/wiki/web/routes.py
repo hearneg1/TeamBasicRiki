@@ -209,5 +209,8 @@ def upload_file():
         file = request.files['file']
         file_manager = FileManager(DIRECTORY)
         success = file_manager.upload_file(file)
-        return success
+        if success:
+            flash("Successfully uploaded file!!!")
+        else:
+            flash("Upload failed... file already exists!")
     return redirect(url_for('wiki.file_storage'))
