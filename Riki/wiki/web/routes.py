@@ -24,9 +24,10 @@ from wiki.web import current_wiki
 from wiki.web import current_users
 from wiki.web.user import protect
 
-from wiki.web.file_storage import DownloadFiles, UploadFiles
+from wiki.web.file_storage import FileManager
 
 bp = Blueprint('wiki', __name__)
+DIRECTORY = "UserFileStorage"
 
 
 @bp.route('/')
@@ -187,10 +188,8 @@ def page_not_found(error):
 @bp.route('/file_storage/', methods=['GET', 'POST'])
 @protect
 def file_storage():
-    directory = "."
-    downloader = DownloadFiles(directory)
-    uploader = UploadFiles(directory)
-    files = downloader.get_downloadable_files()
+    file_manager = FileManager(DIRECTORY)
+    files = file_manager.get_downloadable_files()
     return render_template('file_storage.html', files=files) # could pass upload/download object --> not sure how we should call from view
 
 @bp.route('/delete_file/<path:file_name>/')
