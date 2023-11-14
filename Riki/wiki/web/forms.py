@@ -73,13 +73,4 @@ class RegisterForm(FlaskForm):
     confirmPassword = PasswordField("", [InputRequired(), EqualTo('password', message='Passwords must match')])
     email = EmailField("", [InputRequired(), Email()])
 
-    def validate_username(self, field):
-        user = current_users.get_user(field.data)
-        if user:
-            raise ValidationError('This username already exists.')
 
-    def validate_password(self, field):
-        password = self.password.data
-        confirmPassword = self.confirmPassword.data
-        if password != confirmPassword:
-            raise ValidationError('Passwords do not match')

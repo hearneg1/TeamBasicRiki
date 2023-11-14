@@ -9,7 +9,7 @@ import hashlib
 import uuid
 from functools import wraps
 
-from flask import current_app
+from flask import current_app, flash
 from flask_login import current_user
 
 
@@ -48,7 +48,8 @@ class UserManager(object):
             'roles': roles,
             'authentication_method': authentication_method,
             'authenticated': False,
-            'email': email
+            'email': email,
+            'is_anonymous': False
         }
         if authentication_method == 'hash':
             new_user['hash'] = make_salted_hash(password)
@@ -80,6 +81,38 @@ class UserManager(object):
         data = self.read()
         data[name] = userdata
         self.write(data)
+
+
+class UserRegistrationController:
+    def __init__(self, user_manager):
+        self.user_manager = user_manager
+
+    def register_user(self, form):
+        username = form.username.data
+        password = form.password.data
+        confirm_password = form.confirmPassword.data
+        email = form.email.data
+
+        # Check if the username already exists
+        existing_user = self.user_manager.get_user(username)
+        if existing_user:
+            flash('Username already exists. Please choose another username.', 'danger')
+            return False
+
+        # Check if the passwords match
+        if password != confirm_password:
+            flash('Passwords do not match. Please enter matching passwords.', 'danger')
+            return False
+
+        # Add the user if validation passes
+        user_added = self.user_manager.add_user(username, password, email=email)
+
+        if user_added:
+            flash('User added successfully!', 'success')
+            return True
+        else:
+            flash('Failed to add user. Please try again.', 'danger')
+            return False
 
 
 class User(object):
