@@ -24,8 +24,9 @@
                     </li>
 
                 </ul>
-{#                <a class="btn btn-primary mt-3" href="{{ url_for('wiki.user_edit') }}">Edit Profile</a>#}
-                <a class="btn btn-danger mt-3" href="{{ url_for('wiki.user_delete') }}">Delete Profile</a>
+                {#                <a class="btn btn-primary mt-3" href="{{ url_for('wiki.user_edit') }}">Edit Profile</a>#}
+               <a class="btn btn-danger mt-3" href="{{ url_for('wiki.user_delete', user_id=current_user.get_id()) }}">Delete Profile</a>
+
             </div>
         </div>
     </div>

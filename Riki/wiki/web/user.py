@@ -83,6 +83,8 @@ class UserManager(object):
         self.write(data)
 
 
+
+
 class UserRegistrationController:
     def __init__(self, user_manager):
         self.user_manager = user_manager
