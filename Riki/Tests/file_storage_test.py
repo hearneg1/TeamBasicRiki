@@ -27,7 +27,7 @@ class TestFileStorage(unittest.TestCase):
         self.assertEqual(files[0], "test_text.txt")
 
     def test_download_file(self):
-        pass  # no idea how to unit test send_from_directory call inside this function
+        pass  # not sure I can unit test send_from_directory call inside this function, might need integration / manual testing
 
     def test_upload_file_success(self):
         test_file_name = "test_upload.txt"
@@ -55,6 +55,17 @@ class TestFileStorage(unittest.TestCase):
             content_type="text/plain"
         )
         result = self.file_manager.upload_file(file)
+        self.assertFalse(result)
+
+    def test_delete_file(self):
+        test_file_name = "test_delete.txt"
+        open(os.path.join(self.directory, test_file_name), "w").close()
+        result = self.file_manager.delete_file(test_file_name)
+        self.assertTrue(result)
+
+    def test_delete_file_failure_not_found(self):
+        test_file_name = "test_delete.txt"  # Shouldn't exist, files are deleted between runs
+        result = self.file_manager.delete_file(test_file_name)
         self.assertFalse(result)
 
 
