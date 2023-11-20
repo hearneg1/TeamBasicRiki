@@ -192,6 +192,7 @@ def file_storage():
     files = file_manager.get_downloadable_files()
     return render_template('file_storage.html', files=files)
 
+
 @bp.route('/delete_file/<path:file_name>/')
 @protect
 def delete_file(file_name):
@@ -203,12 +204,14 @@ def delete_file(file_name):
         flash(f"Unknown issue... failed to delete file {file_name}")
     return redirect(url_for('wiki.file_storage'))
 
+
 @bp.route('/download_file/<path:file_name>/')
 @protect
 def download_file(file_name):
     file_manager = FileManager(DIRECTORY)
     print(file_name)
     return file_manager.download_file(file_name)
+
 
 @bp.route('/upload_file/', methods=['GET', 'POST'])
 @protect
