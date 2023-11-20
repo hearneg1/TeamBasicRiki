@@ -1,9 +1,6 @@
-import io
 import os
 import sys
 import unittest
-from unittest import mock
-from unittest.mock import patch
 from werkzeug.datastructures import FileStorage
 
 sys.path.append(os.path.join(os.getcwd(), "wiki"))  # used to make test run, still need to run from command line
