@@ -209,7 +209,6 @@ def download_file(file_name):
     file_manager = FileManager(DIRECTORY)
     print(file_name)
     return file_manager.download_file(file_name)
-    return redirect(url_for('wiki.file_storage'))
 
 @bp.route('/upload_file/', methods=['GET', 'POST'])
 @protect
