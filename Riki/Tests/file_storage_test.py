@@ -10,11 +10,9 @@ from wiki.web.file_storage import FileManager  # run with python -m unittest Tes
 class TestFileStorage(unittest.TestCase):
     def setUp(self):
         self.directory = os.path.join("Tests", "test_directory")
-        if not os.path.exists(self.directory):
-            os.mkdir(self.directory)
+        self.file_manager = FileManager(self.directory)
         for file in os.listdir(self.directory):
             os.remove(os.path.join(self.directory, file))
-        self.file_manager = FileManager(self.directory)
 
     def test_get_downloadable_files(self):
         files = self.file_manager.get_downloadable_files()
