@@ -4,6 +4,8 @@ from flask import send_from_directory
 class FileManager(object):
     def __init__(self, directory):
         self._directory = directory
+        if not os.path.exists(self._directory):
+            os.mkdir(self._directory)
 
     def get_downloadable_files(self):
         return os.listdir(self._directory)
