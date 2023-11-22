@@ -14,5 +14,24 @@
     "password": "1234",
     "authenticated": true,
     "roles": []
+  },
+  "Bobbb": {
+    "id": "57c013f7-6f5a-46d5-91e5-124fc40f115d",
+    "active": true,
+    "roles": [],
+    "authentication_method": "cleartext",
+    "authenticated": true,
+    "email": "bob@b.com",
+    "password": "aa"
+  },
+  "bob1": {
+    "id": "ea4c4332-20cf-4ff6-8602-d5e6bd263237",
+    "active": true,
+    "roles": [],
+    "authentication_method": "cleartext",
+    "authenticated": true,
+    "email": "g@gmai.com",
+    "is_anonymous": false,
+    "password": "pass"
   }
 }

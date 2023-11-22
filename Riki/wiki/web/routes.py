@@ -27,7 +27,7 @@ from wiki.web.forms import RegisterForm
 
 from config import USER_DIR
 
-from TeamBasicRiki.Riki.wiki.web.user import UserRegistrationController
+from wiki.web.user import UserRegistrationController
 
 bp = Blueprint('wiki', __name__)
 
@@ -192,9 +192,7 @@ def user_admin(user_id):
     pass
 
 
-
-
-@bp.route('/user/delete/<int:user_id>/', methods=['GET', 'POST'])
+@bp.route('/user/delete/<string:user_id>/', methods=['GET', 'POST'])
 @protect
 def user_delete(user_id):
     user = current_users.get_user(user_id)
