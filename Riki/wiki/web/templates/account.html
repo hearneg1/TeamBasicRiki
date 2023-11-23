@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title -%}
+    Account Profile
+{%- endblock title %}
+
+{% block content %}
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <h2>{{ user.name }}'s Profile</h2>
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <strong>Email:</strong> {{ user.email }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Active:</strong> {% if user.active %}Yes{% else %}No{% endif %}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Authenticated:</strong> {% if user.authenticated %}Yes{% else %}No{% endif %}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Roles:</strong> {{ user.roles | join(', ') }}
+                    </li>
+
+                </ul>
+                {#                <a class="btn btn-primary mt-3" href="{{ url_for('wiki.user_edit') }}">Edit Profile</a>#}
+               <a class="btn btn-danger mt-3" href="{{ url_for('wiki.user_delete', user_id=current_user.get_id()) }}">Delete Profile</a>
+
+            </div>
+        </div>
+    </div>
+{% endblock content %}

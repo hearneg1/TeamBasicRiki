@@ -2,8 +2,8 @@
     Routes
     ~~~~~~
 """
+from wiki.web.user import UserManager
 import os
-
 from flask import Blueprint
 from flask import flash
 from flask import redirect
@@ -14,7 +14,6 @@ from flask_login import current_user
 from flask_login import login_required
 from flask_login import login_user
 from flask_login import logout_user
-
 from wiki.core import Processor
 from wiki.web.forms import EditorForm
 from wiki.web.forms import LoginForm
@@ -23,7 +22,9 @@ from wiki.web.forms import URLForm
 from wiki.web import current_wiki
 from wiki.web import current_users
 from wiki.web.user import protect
-
+from wiki.web.forms import RegisterForm
+from config import USER_DIR
+from wiki.web.user import UserRegistrationController
 from wiki.web.file_storage import FileManager
 
 bp = Blueprint('wiki', __name__)
@@ -155,13 +156,34 @@ def user_logout():
 
 
 @bp.route('/user/')
+@login_required
 def user_index():
+    user_data = {
+        'name': current_user.name,
+        'email': current_user.get('email'),
+        'active': current_user.is_active(),
+        'authenticated': current_user.is_authenticated(),
+        'roles': current_user.get('roles'),
+
+    }
+    return render_template("account.html", user=user_data)
+
+
+@bp.route('/user/edit')
+def user_edit():
     pass
 
 
-@bp.route('/user/create/')
+@bp.route('/user/create/', methods=['GET', 'POST'])
 def user_create():
-    pass
+    form = RegisterForm()
+    user_manager = UserManager(USER_DIR)
+    registration_controller = UserRegistrationController(user_manager)
+
+    if form.validate_on_submit() and registration_controller.register_user(form):
+        return redirect(url_for('wiki.user_login'))
+
+    return render_template('register.html', form=form)
 
 
 @bp.route('/user/<int:user_id>/')
@@ -169,9 +191,18 @@ def user_admin(user_id):
     pass
 
 
-@bp.route('/user/delete/<int:user_id>/')
+@bp.route('/user/delete/<string:user_id>/', methods=['GET', 'POST'])
+@protect
 def user_delete(user_id):
-    pass
+    user = current_users.get_user(user_id)
+    if request.method == 'POST':
+        # Perform the user deletion logic here
+        user_manager = UserManager(USER_DIR)
+        user_manager.delete_user(user.name)
+        flash('User {} has been deleted.'.format(user.name), 'success')
+        return redirect(url_for('wiki.index'))
+
+    return render_template('delete_user.html', user=user)
 
 
 """
@@ -227,3 +258,4 @@ def upload_file():
         else:
             flash(f"Upload failed... file {file.filename} already exists!")
     return redirect(url_for('wiki.file_storage'))
+
