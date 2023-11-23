@@ -3,6 +3,7 @@
     ~~~~~~
 """
 from wiki.web.user import UserManager
+import os
 from flask import Blueprint
 from flask import flash
 from flask import redirect
@@ -13,7 +14,6 @@ from flask_login import current_user
 from flask_login import login_required
 from flask_login import login_user
 from flask_login import logout_user
-
 from wiki.core import Processor
 from wiki.web.forms import EditorForm
 from wiki.web.forms import LoginForm
@@ -22,14 +22,13 @@ from wiki.web.forms import URLForm
 from wiki.web import current_wiki
 from wiki.web import current_users
 from wiki.web.user import protect
-
 from wiki.web.forms import RegisterForm
-
 from config import USER_DIR
-
 from wiki.web.user import UserRegistrationController
+from wiki.web.file_storage import FileManager
 
 bp = Blueprint('wiki', __name__)
+DIRECTORY = "UserFileStorage"
 
 
 @bp.route('/')
@@ -215,3 +214,48 @@ def user_delete(user_id):
 @bp.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html'), 404
+
+
+@bp.route('/file_storage/', methods=['GET', 'POST'])
+@protect
+def file_storage():
+    file_manager = FileManager(DIRECTORY)
+    files = file_manager.get_downloadable_files()
+    return render_template('file_storage.html', files=files)
+
+
+@bp.route('/delete_file/<path:file_name>/')
+@protect
+def delete_file(file_name):
+    file_manager = FileManager(DIRECTORY)
+    success = file_manager.delete_file(file_name)
+    if success:
+        flash(f"Successfully deleted file {file_name}")
+    else:
+        flash(f"Unknown issue... failed to delete file {file_name}")
+    return redirect(url_for('wiki.file_storage'))
+
+
+@bp.route('/download_file/<path:file_name>/')
+@protect
+def download_file(file_name):
+    file_manager = FileManager(DIRECTORY)
+    print(file_name)
+    return file_manager.download_file(file_name)
+
+
+@bp.route('/upload_file/', methods=['GET', 'POST'])
+@protect
+def upload_file():
+    if request.method == 'POST':
+        file = request.files['file']
+        file_manager = FileManager(DIRECTORY)
+        success = file_manager.upload_file(file)
+        if success:
+            flash(f"Successfully uploaded file {file.filename}")
+        elif file.filename == "":
+            flash("Please select a file to upload first!!!")
+        else:
+            flash(f"Upload failed... file {file.filename} already exists!")
+    return redirect(url_for('wiki.file_storage'))
+

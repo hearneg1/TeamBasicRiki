@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title -%}File Storage{%- endblock title %}
+{% block content %}
+    <form action={{ url_for("wiki.upload_file") }} method="post" enctype="multipart/form-data">
+        <label for="file" class="label label-inverse" style="font-size: 16px">Upload File</label>
+        <input type="file" name="file" class="btn btn-info"/>
+        <input type="submit" class="btn btn-success" value="Upload">
+    </form>
+    <h2 class="page-header">Downloadable Files</h2>
+    <table class="table table-striped">
+        <tr>
+            <th>File Name</th>
+            <th>Download</th>
+            <th>Delete</th>
+        </tr>
+        {% for file in files %}
+            <tr>
+                <td>{{ file }}</td>
+                <td><a href="{{ url_for('wiki.download_file', file_name=file) }}" class="btn">Download</a></td>
+                <td><a href="{{ url_for('wiki.delete_file', file_name=file) }}" class="btn btn-danger">Delete</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock content %}
