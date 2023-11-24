@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title %}
-	{{ page.title }}
+    {{ page.title }}
 {% endblock title %}
 
 {% block content %}
@@ -10,7 +10,7 @@
             <h3>Are you sure?</h3>
         </div>
         <div class="modal-body">
-            <p>Are you sure you want to delete {{ page.title }}?  This cannot be undone.</p>
+            <p>Are you sure you want to delete {{ page.title }}? This cannot be undone.</p>
         </div>
         <div class="modal-footer">
             <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">No</a>
@@ -27,6 +27,7 @@
             <div class="form-group">
                 <label for="fileType">Select File Type:</label>
                 <select class="form-control" id="fileType">
+                    <option>select</option>
                     <option value="md">MD</option>
                     <option value="pdf">PDF</option>
                     <option value="txt">TXT</option>
@@ -34,29 +35,38 @@
                     <option value="docx">DOCX</option>
                 </select>
             </div>
-            <a href="{{ url_for('wiki.convert', url=page.url) }}" class="btn btn-primary">Convert</a>
+            <button id="convertBtn" class="btn btn-primary">Convert</button>
+
+            <div id="conversionResult"></div>
         </div>
-        <div class="modal-footer">
+
+        <div class="modal-footer" id="modalFooter">
             <a href="#" class="btn" data-dismiss="modal" aria-hidden="true">Cancel</a>
+            <button id="downloadBtn" class="btn btn-primary">Download</button>
         </div>
     </div>
-	{{ page }}
+
+    {{ page }}
+
+    {% block postscripts %}
+        <script src="{{ url_for('static', filename='conversion_script.js') }}"></script>
+    {% endblock postscripts %}
 {% endblock content %}
 
 {% block sidebar %}
-{% if page.tags %}
-<h3>Tags</h3>
-  <ul>
-      {% for tag in page.tags.split(',') %}
-        <li><a href="{{ url_for('wiki.tag', name=tag.strip()) }}">{{ tag|trim }}</a></li>
-      {% endfor %}
-  </ul>
-{% endif %}
-<h3>Actions</h3>
-<ul class="nav nav-tabs nav-stacked">
-	<li><a href="{{ url_for('wiki.edit', url=page.url) }}">Edit</a></li>
-    <li><a href="{{ url_for('wiki.move', url=page.url) }}">Move</a></li>
-    <li><a href="#download" data-toggle="modal">Download Page</a></li>
-    <li><a href="#confirmDelete" data-toggle="modal" class="text-error">Delete</a></li>
-</ul>
+    {% if page.tags %}
+        <h3>Tags</h3>
+        <ul>
+            {% for tag in page.tags.split(',') %}
+                <li><a href="{{ url_for('wiki.tag', name=tag.strip()) }}">{{ tag|trim }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <h3>Actions</h3>
+    <ul class="nav nav-tabs nav-stacked">
+        <li><a href="{{ url_for('wiki.edit', url=page.url) }}">Edit</a></li>
+        <li><a href="{{ url_for('wiki.move', url=page.url) }}">Move</a></li>
+        <li><a href="#download" data-toggle="modal">Download Page</a></li>
+        <li><a href="#confirmDelete" data-toggle="modal" class="text-error">Delete</a></li>
+    </ul>
 {% endblock sidebar %}
