@@ -167,7 +167,7 @@ def user_index():
         'roles': current_user.get('roles'),
 
     }
-    return render_template("account.html", user=user_data)
+    return render_template('account.html', user=user_data)
 
 
 @bp.route('/user/edit')
@@ -197,7 +197,6 @@ def user_admin(user_id):
 def user_delete(user_id):
     user = current_users.get_user(user_id)
     if request.method == 'POST':
-        # Perform the user deletion logic here
         user_manager = UserManager(USER_DIR)
         user_manager.delete_user(user.name)
         flash('User {} has been deleted.'.format(user.name), 'success')

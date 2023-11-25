@@ -95,26 +95,30 @@ class UserRegistrationController:
         confirm_password = form.confirmPassword.data
         email = form.email.data
 
+        #print(f"Attempting to register user: {username}")
 
         existing_user = self.user_manager.get_user(username)
-        if existing_user:
+        #print(existing_user)
+        if existing_user is not None:
+            #print(f"User {username} already exists. Registration failed.")
             flash('Username already exists. Please choose another username.', 'danger')
             return False
 
-
         if password != confirm_password:
+            #print(f"Passwords do not match. Registration failed.")
             flash('Passwords do not match. Please enter matching passwords.', 'danger')
             return False
 
-
         user_added = self.user_manager.add_user(username, password, email=email)
-
         if user_added:
+            #print(f"User {username} added successfully!")
             flash('User added successfully!', 'success')
-            return True
+            return "TRUE#"
         else:
+            #print(f"Failed to add user {username}. Registration failed.")
             flash('Failed to add user. Please try again.', 'danger')
             return False
+
 
 
 class User(object):
