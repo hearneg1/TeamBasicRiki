@@ -14,6 +14,20 @@ def mock_flash(message, category):
 
 
 class UserCreateRouteTestCase(unittest.TestCase):
+
+    def _register_new_user(self, username):
+        with self.app.test_request_context():
+            form_data = {
+                'username': username,
+                'password': 'new_password',
+                'confirmPassword': 'new_password',
+                'email': 'new_user@example.com'
+            }
+            form = RegisterForm(data=form_data)
+
+            # Use the register_user method to register the user
+            with self.app.test_request_context():
+                result = self.registration_controller.register_user(form)
     def setUp(self):
         directory = os.getcwd()
         self.app = create_app(directory=directory)
@@ -143,26 +157,14 @@ class UserCreateRouteTestCase(unittest.TestCase):
                       'Cancel link not displaying')
 
     def test_account_deletion(self):
-        # Check if the user exists
-        test_user_before = self.user_manager.get_user('new_user')
+        username = 'new_user'
+        test_user_before = self.user_manager.get_user(username)
 
         # If the user doesn't exist, create it
         if not test_user_before:
-            with self.app.test_request_context():
-                form_data = {
-                    'username': 'new_user',
-                    'password': 'new_password',
-                    'confirmPassword': 'new_password',
-                    'email': 'new_user@example.com'
-                }
-                form = RegisterForm(data=form_data)
+            self._register_new_user(username)
+            self.assertIsNotNone(self.user_manager.get_user(username), "User does not exist")
 
-                # Use the register_user method to register the user
-                with self.app.test_request_context():
-                    result = self.registration_controller.register_user(form)
-
-        # Now, proceed with the deletion part
-        self.assertIsNotNone(test_user_before, "User does not exist")
         form_data = {
             'name': 'new_user',
             'password': 'new_password'
@@ -184,6 +186,7 @@ class UserCreateRouteTestCase(unittest.TestCase):
         self.assertIn("Login", decoded_response, "Login page not redirected")
         self.assertIsNone(test_user_after, "User still exists after deletion")
 
+
     def test_account_logout(self):
         form_data = {
             'name': 'name',
@@ -197,5 +200,10 @@ class UserCreateRouteTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn("Logout successful.", decoded_response, "User did not logout successfully")
         self.assertIn("Login", decoded_response, "Login page not redirected")
+
+
+
+
+
 if __name__ == '__main__':
     unittest.main()

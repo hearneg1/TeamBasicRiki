@@ -17,7 +17,7 @@ class UserRegistrationControllerTestCase(unittest.TestCase):
         self.client = self.app.test_client()
         self.user_manager = UserManager(
             "C:\\Users\\Georg\\venv\\p3\\A Stage Preparation Files\\TeamBasicRiki\\Riki\\user")
-        #change with your own user directory
+        # change with your own user directory
         self.registration_controller = UserRegistrationController(self.user_manager)
 
     def test_register_user_success(self):
@@ -54,6 +54,21 @@ class UserRegistrationControllerTestCase(unittest.TestCase):
         self.assertEqual(added_user.get('email'), 'new_user@example.com')
 
     def test_register_user_failure_existing_user(self):
+        initial_user = self.user_manager.get_user('new_user')
+        if not initial_user:
+            with self.app.test_request_context():
+                form_data = {
+                    'username': 'new_user',
+                    'password': 'new_password',
+                    'confirmPassword': 'new_password',
+                    'email': 'new_user@example.com'
+                }
+                form = RegisterForm(data=form_data)
+
+            # register_user method for regristation
+            with self.app.test_request_context():
+                result = self.registration_controller.register_user(form)
+
         # Create an initial user with the same username
         with self.app.test_request_context():
             form_data = {
@@ -84,8 +99,8 @@ class UserRegistrationControllerTestCase(unittest.TestCase):
         self.assertEqual(added_user.get('email'), 'new_user@example.com')
 
     def test_register_user_failure_password_mismatch(self):
-        deleted_user = self.user_manager.get_user('new_user')
-        if deleted_user:
+        test_user = self.user_manager.get_user('new_user')
+        if test_user:
             self.user_manager.delete_user('new_user')
         # Create a form with user data and mismatched passwords
         with self.app.test_request_context():
@@ -116,7 +131,20 @@ class UserRegistrationControllerTestCase(unittest.TestCase):
         self.assertIsNone(non_existent_user, "User 'new_user' should not exist after failed registration")
 
     def test_user_delete(self):
-        initial_user = self.user_manager.get_user('test')
+        initial_user = self.user_manager.get_user('new_user')
+        if not initial_user:
+            with self.app.test_request_context():
+                form_data = {
+                    'username': 'new_user',
+                    'password': 'new_password',
+                    'confirmPassword': 'new_password',
+                    'email': 'new_user@example.com'
+                }
+                form = RegisterForm(data=form_data)
+
+            # register_user method for regristation
+            with self.app.test_request_context():
+                result = self.registration_controller.register_user(form)
         self.assertIsNotNone(initial_user, "User 'test_user' should exist before deletion")
 
         # Delete the user
