@@ -113,7 +113,7 @@ class UserRegistrationController:
         if user_added:
             #print(f"User {username} added successfully!")
             flash('User added successfully!', 'success')
-            return "TRUE#"
+            return True
         else:
             #print(f"Failed to add user {username}. Registration failed.")
             flash('Failed to add user. Please try again.', 'danger')

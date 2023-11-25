@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block title -%}
-    Delete User
+    Delete User '{{ user.name }}'
 {%- endblock title %}
 
 {% block content %}
@@ -9,10 +9,10 @@
         <div class="col-md-6 offset-md-3">
             <div class="card mt-5">
                 <div class="card-header">
-                    <h2 class="text-center">Delete User</h2>
+                    <h2 class="text-center">Delete User '{{ user.name }}'</h2>
                 </div>
                 <div class="card-body">
-                    <p class="text-center">Are you sure you want to delete the user {{ user.name }}?</p>
+                    <p class="text-center">Are you sure you want to delete the user '{{ user.name }}'?</p>
 
                     <form method="post" action="{{ url_for('wiki.user_delete', user_id=user.name) }}" class="text-center">
                         <button type="submit" class="btn btn-danger">Delete</button>

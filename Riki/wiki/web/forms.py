@@ -70,7 +70,7 @@ from wtforms.validators import InputRequired, Length, Email, EqualTo
 class RegisterForm(FlaskForm):
     username = StringField("", [InputRequired(), Length(min=4, max=24)])
     password = PasswordField("", [InputRequired()])
-    confirmPassword = PasswordField("", [InputRequired(), EqualTo('password', message='Passwords must match')])
+    confirmPassword = PasswordField("", [InputRequired()])
     email = EmailField("", [InputRequired(), Email()])
 
 
