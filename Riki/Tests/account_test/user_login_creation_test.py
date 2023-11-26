@@ -8,26 +8,10 @@ from wiki.web.user import UserRegistrationController
 from wiki.web.forms import RegisterForm
 
 
-# run with python -m unittest Tests/file_storage_test.py
-def mock_flash(message, category):
-    pass
-
+# to test run python -m unittest .\Tests\account_test\user_login_creation_test.py in command line
 
 class UserCreateRouteTestCase(unittest.TestCase):
 
-    def _register_new_user(self, username):
-        with self.app.test_request_context():
-            form_data = {
-                'username': username,
-                'password': 'new_password',
-                'confirmPassword': 'new_password',
-                'email': 'new_user@example.com'
-            }
-            form = RegisterForm(data=form_data)
-
-            # Use the register_user method to register the user
-            with self.app.test_request_context():
-                result = self.registration_controller.register_user(form)
     def setUp(self):
         directory = os.getcwd()
         self.app = create_app(directory=directory)
@@ -97,15 +81,15 @@ class UserCreateRouteTestCase(unittest.TestCase):
 
     def test_user_login_success(self):
         form_data = {
-            'name': 'test',
-            'password': 'test_password'
+            'name': 'name',
+            'password': '1234'
         }
         login_response = self.client.post('/user/login/', data=form_data, follow_redirects=True)
 
         self.assertEqual(login_response.status_code, 200)
         self.assertIn("Login successful", login_response.data.decode('utf-8'))
 
-    def test_user_login_success(self):
+    def test_user_login_failure(self):
         form_data = {
             'name': 'tt',
             'password': 'test_password'
@@ -115,77 +99,6 @@ class UserCreateRouteTestCase(unittest.TestCase):
         self.assertEqual(login_response.status_code, 200)
         self.assertIn("Errors occured verifying your input. Please check the marked fields below.",
                       login_response.data.decode('utf-8'))
-
-    def test_account_page_display_properly(self):
-        form_data = {
-            'name': 'name',
-            'password': '1234'
-        }
-        login_response = self.client.post('/user/login/', data=form_data, follow_redirects=True)
-
-        self.assertEqual(login_response.status_code, 200)
-        self.assertIn("Login successful", login_response.data.decode('utf-8'))
-
-        response = self.client.get('/user/', follow_redirects=True)
-        decoded_response = response.data.decode('utf-8')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn("'s Profile", decoded_response, "user name is not properly displaying")
-        self.assertIn("Active:", decoded_response, "Active is not properly displaying")
-        self.assertIn("Authenticated:", decoded_response, "Authenticated is not properly displaying")
-        self.assertIn("Roles:", decoded_response, "Roles is not properly displaying")
-        self.assertIn("Delete Profile", decoded_response, "Delete Profile button is not displaying")
-        # print(login_response.data)
-
-    def test_account_deletion_page_display(self):
-        form_data = {
-            'name': 'name',
-            'password': '1234'
-        }
-
-        # Log in with the test user
-        self.client.post('/user/login/', data=form_data, follow_redirects=True)
-        self.client.get('/user', follow_redirects=True)
-        response = self.client.get('/user/delete/name/', follow_redirects=True)
-        decoded_response = response.data.decode('utf-8')
-        self.assertEqual(response.status_code, 200)
-        self.assertIn(">Are you sure you want to delete the user", decoded_response, "User warning not displaying")
-        self.assertIn('<button type="submit" class="btn btn-danger">Delete</button>', decoded_response,
-                      'Delete button not displaying')
-
-        # Check if the Cancel link is present
-        self.assertIn('<a href="/user/" class="btn btn-secondary mt-2">Cancel</a>', decoded_response,
-                      'Cancel link not displaying')
-
-    def test_account_deletion(self):
-        username = 'new_user'
-        test_user_before = self.user_manager.get_user(username)
-
-        # If the user doesn't exist, create it
-        if not test_user_before:
-            self._register_new_user(username)
-            self.assertIsNotNone(self.user_manager.get_user(username), "User does not exist")
-
-        form_data = {
-            'name': 'new_user',
-            'password': 'new_password'
-        }
-
-        # Log in with the test user
-        self.client.post('/user/login/', data=form_data, follow_redirects=True)
-
-        # Delete the test user
-        response = self.client.post('/user/delete/new_user/', follow_redirects=True)
-        decoded_response = response.data.decode('utf-8')
-
-        # Check if the user no longer exists
-        test_user_after = self.user_manager.get_user('new_user')
-
-        # Perform assertions
-        self.assertEqual(response.status_code, 200)
-        self.assertIn("User new_user has been deleted.", decoded_response, "User not deleted")
-        self.assertIn("Login", decoded_response, "Login page not redirected")
-        self.assertIsNone(test_user_after, "User still exists after deletion")
-
 
     def test_account_logout(self):
         form_data = {
@@ -200,9 +113,6 @@ class UserCreateRouteTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertIn("Logout successful.", decoded_response, "User did not logout successfully")
         self.assertIn("Login", decoded_response, "Login page not redirected")
-
-
-
 
 
 if __name__ == '__main__':

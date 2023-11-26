@@ -8,16 +8,14 @@ from wiki.web.user import UserRegistrationController
 from wiki.web.forms import RegisterForm
 
 
-### run with python -m unittest Tests/file_storage_test.py ###
+### run with  python -m unittest .\Tests\account_test\user_controller_test.py ###
 
 class UserRegistrationControllerTestCase(unittest.TestCase):
     def setUp(self):
         directory = os.getcwd()
         self.app = create_app(directory=directory)
         self.client = self.app.test_client()
-        self.user_manager = UserManager(
-            "C:\\Users\\Georg\\venv\\p3\\A Stage Preparation Files\\TeamBasicRiki\\Riki\\user")
-        # change with your own user directory
+        self.user_manager = UserManager(os.path.join(directory, 'user'))
         self.registration_controller = UserRegistrationController(self.user_manager)
 
     def test_register_user_success(self):
