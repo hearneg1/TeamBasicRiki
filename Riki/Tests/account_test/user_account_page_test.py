@@ -2,12 +2,14 @@ import os
 import sys
 import unittest
 
+from flask import Blueprint
 from wiki import create_app
 from wiki.web.user import UserManager
 from wiki.web.user import UserRegistrationController
 from wiki.web.forms import RegisterForm
 
 # to test run python -m unittest .\Tests\account_test\user_account_page_test.py in command line
+bp = Blueprint('wiki', __name__)
 
 class UserAccountPageTestCases(unittest.TestCase):
     def setUp(self):
