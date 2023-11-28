@@ -3,11 +3,16 @@
 {% block title %}Login{% endblock title %}
 
 {% block content %}
-<form class="form form-inline" method="POST">
-	{{ form.hidden_tag() }}
-	{{ form.name(placeholder='Username') }}
-	{{ form.password(placeholder='Password') }}
-	<input type="submit" class="btn btn-primary" value="Login">
-    <input type="button" class="btn btn-primary" value="Create" onclick="window.location.href='/user/create'">
-</form>
+    <form class="form form-inline" method="POST">
+        {{ form.hidden_tag() }}
+        {{ form.name(placeholder='Username') }}
+        {{ form.password(placeholder='Password') }}
+        <input type="submit" class="btn btn-primary" value="Login">
+    </form>
+
+    <div style="text-align: center; margin-top: 20px;">
+        <form class="form form-inline" method="GET" action="{{ url_for('wiki.user_create') }}">
+            <button type="submit" class="btn btn-primary">Create an account</button>
+        </form>
+    </div>
 {% endblock content %}
