@@ -4,8 +4,8 @@
 """
 import base64
 from io import BytesIO
-
 from flask import Blueprint, make_response, send_file
+from wiki.web.user import UserManager
 from flask import flash
 from flask import redirect
 from flask import render_template
@@ -15,7 +15,6 @@ from flask_login import current_user
 from flask_login import login_required
 from flask_login import login_user
 from flask_login import logout_user
-
 from wiki.core import Processor
 from wiki.web.converter import Converter, get_file_size
 from wiki.web.forms import EditorForm
@@ -25,8 +24,13 @@ from wiki.web.forms import URLForm
 from wiki.web import current_wiki
 from wiki.web import current_users
 from wiki.web.user import protect
+from wiki.web.forms import RegisterForm
+from config import USER_DIR
+from wiki.web.user import UserRegistrationController
+from wiki.web.file_storage import FileManager
 
 bp = Blueprint('wiki', __name__)
+DIRECTORY = "UserFileStorage"
 
 
 @bp.route('/')
@@ -253,13 +257,34 @@ def user_logout():
 
 
 @bp.route('/user/')
+@login_required
 def user_index():
+    user_data = {
+        'name': current_user.name,
+        'email': current_user.get('email'),
+        'active': current_user.is_active(),
+        'authenticated': current_user.is_authenticated(),
+        'roles': current_user.get('roles'),
+
+    }
+    return render_template("account.html", user=user_data)
+
+
+@bp.route('/user/edit')
+def user_edit():
     pass
 
 
-@bp.route('/user/create/')
+@bp.route('/user/create/', methods=['GET', 'POST'])
 def user_create():
-    pass
+    form = RegisterForm()
+    user_manager = UserManager(USER_DIR)
+    registration_controller = UserRegistrationController(user_manager)
+
+    if form.validate_on_submit() and registration_controller.register_user(form):
+        return redirect(url_for('wiki.user_login'))
+
+    return render_template('register.html', form=form)
 
 
 @bp.route('/user/<int:user_id>/')
@@ -267,9 +292,18 @@ def user_admin(user_id):
     pass
 
 
-@bp.route('/user/delete/<int:user_id>/')
+@bp.route('/user/delete/<string:user_id>/', methods=['GET', 'POST'])
+@protect
 def user_delete(user_id):
-    pass
+    user = current_users.get_user(user_id)
+    if request.method == 'POST':
+        # Perform the user deletion logic here
+        user_manager = UserManager(USER_DIR)
+        user_manager.delete_user(user.name)
+        flash('User {} has been deleted.'.format(user.name), 'success')
+        return redirect(url_for('wiki.index'))
+
+    return render_template('delete_user.html', user=user)
 
 
 """
@@ -281,3 +315,48 @@ def user_delete(user_id):
 @bp.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html'), 404
+
+
+@bp.route('/file_storage/', methods=['GET', 'POST'])
+@protect
+def file_storage():
+    file_manager = FileManager(DIRECTORY)
+    files = file_manager.get_downloadable_files()
+    return render_template('file_storage.html', files=files)
+
+
+@bp.route('/delete_file/<path:file_name>/')
+@protect
+def delete_file(file_name):
+    file_manager = FileManager(DIRECTORY)
+    success = file_manager.delete_file(file_name)
+    if success:
+        flash(f"Successfully deleted file {file_name}")
+    else:
+        flash(f"Unknown issue... failed to delete file {file_name}")
+    return redirect(url_for('wiki.file_storage'))
+
+
+@bp.route('/download_file/<path:file_name>/')
+@protect
+def download_file(file_name):
+    file_manager = FileManager(DIRECTORY)
+    print(file_name)
+    return file_manager.download_file(file_name)
+
+
+@bp.route('/upload_file/', methods=['GET', 'POST'])
+@protect
+def upload_file():
+    if request.method == 'POST':
+        file = request.files['file']
+        file_manager = FileManager(DIRECTORY)
+        success = file_manager.upload_file(file)
+        if success:
+            flash(f"Successfully uploaded file {file.filename}")
+        elif file.filename == "":
+            flash("Please select a file to upload first!!!")
+        else:
+            flash(f"Upload failed... file {file.filename} already exists!")
+    return redirect(url_for('wiki.file_storage'))
+

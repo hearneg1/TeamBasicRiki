@@ -55,3 +55,4 @@ xvfbwrapper==0.2.9
 pdfdocument==4.0.0
 markdown2==2.4.10
 python-docx==1.1.0
+email-validator==1.1.3

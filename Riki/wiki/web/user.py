@@ -6,45 +6,51 @@ import os
 import json
 import binascii
 import hashlib
+import uuid
 from functools import wraps
 
-from flask import current_app
+from flask import current_app, flash
 from flask_login import current_user
-
 
 
 class UserManager(object):
     """A very simple user Manager, that saves it's data as json."""
+
     def __init__(self, path):
         self.file = os.path.join(path, 'users.json')
 
     def read(self):
-        if not os.path.exists(self.file):
+        try:
+            with open(self.file) as f:
+                data = json.loads(f.read())
+            return data
+        except (IOError, json.JSONDecodeError) as e:
+            print(f"Error reading file: {e}")
             return {}
-        with open(self.file) as f:
-            data = json.loads(f.read())
-        return data
 
     def write(self, data):
-        with open(self.file, 'w') as f:
-            f.write(json.dumps(data, indent=2))
+        try:
+            with open(self.file, 'w') as f:
+                f.write(json.dumps(data, indent=2))
+        except IOError as e:
+            print(f"Error writing to file: {e}")
 
-    def add_user(self, name, password,
-                 active=True, roles=[], authentication_method=None):
+    def add_user(self, name, password, email, active=True, roles=[], authentication_method=None):
         users = self.read()
         if users.get(name):
             return False
         if authentication_method is None:
             authentication_method = get_default_authentication_method()
+        new_user_id = str(uuid.uuid4())
         new_user = {
+            'id': new_user_id,
             'active': active,
             'roles': roles,
             'authentication_method': authentication_method,
-            'authenticated': False
+            'authenticated': False,
+            'email': email,
+            'is_anonymous': False
         }
-        # Currently we have only two authentication_methods: cleartext and
-        # hash. If we get more authentication_methods, we will need to go to a
-        # strategy object pattern that operates on User.data.
         if authentication_method == 'hash':
             new_user['hash'] = make_salted_hash(password)
         elif authentication_method == 'cleartext':
@@ -52,6 +58,7 @@ class UserManager(object):
         else:
             raise NotImplementedError(authentication_method)
         users[name] = new_user
+        print(f"Adding user: {new_user}")
         self.write(users)
         userdata = users.get(name)
         return User(self, name, userdata)
@@ -74,6 +81,40 @@ class UserManager(object):
         data = self.read()
         data[name] = userdata
         self.write(data)
+
+
+
+
+class UserRegistrationController:
+    def __init__(self, user_manager):
+        self.user_manager = user_manager
+
+    def register_user(self, form):
+        username = form.username.data
+        password = form.password.data
+        confirm_password = form.confirmPassword.data
+        email = form.email.data
+
+
+        existing_user = self.user_manager.get_user(username)
+        if existing_user:
+            flash('Username already exists. Please choose another username.', 'danger')
+            return False
+
+
+        if password != confirm_password:
+            flash('Passwords do not match. Please enter matching passwords.', 'danger')
+            return False
+
+
+        user_added = self.user_manager.add_user(username, password, email=email)
+
+        if user_added:
+            flash('User added successfully!', 'success')
+            return True
+        else:
+            flash('Failed to add user. Please try again.', 'danger')
+            return False
 
 
 class User(object):
@@ -145,4 +186,5 @@ def protect(f):
         if current_app.config.get('PRIVATE') and not current_user.is_authenticated:
             return current_app.login_manager.unauthorized()
         return f(*args, **kwargs)
+
     return wrapper
