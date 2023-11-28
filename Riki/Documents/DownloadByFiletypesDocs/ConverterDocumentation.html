@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module wiki.web.converter</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="wiki.html" class="white">wiki</a>.<a href="wiki.web.html" class="white">web</a>.converter</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Clogan%5Cdocuments%5Ccollege%20docs%5Ccsc%20440%5Cteambasicriki%5Criki%5Cwiki%5Cweb%5Cconverter.py">c:\users\logan\documents\college docs\csc 440\teambasicriki\riki\wiki\web\converter.py</a></td></tr></table>
+    <p></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="base64.html">base64</a><br>
+</td><td class="multicolumn"><a href="markdown2.html">markdown2</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="wiki.web.converter.html#Converter">Converter</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="Converter">class <strong>Converter</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#Converter">Converter</a>(page)<br>
+&nbsp;<br>
+converts&nbsp;content&nbsp;to&nbsp;different&nbsp;formats.<br>
+&nbsp;<br>
+Attributes:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;page&nbsp;(<a href="builtins.html#object">object</a>):&nbsp;The&nbsp;page&nbsp;<a href="builtins.html#object">object</a>&nbsp;to&nbsp;be&nbsp;converted.<br>
+&nbsp;<br>
+Methods:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Converter-convert_to_PDF">convert_to_PDF</a>():&nbsp;Convert&nbsp;content&nbsp;to&nbsp;PDF&nbsp;format.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Converter-convert_to_TXT">convert_to_TXT</a>():&nbsp;Convert&nbsp;content&nbsp;to&nbsp;plain&nbsp;text&nbsp;format.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Converter-convert_to_HTML">convert_to_HTML</a>():&nbsp;Convert&nbsp;content&nbsp;to&nbsp;HTML&nbsp;format.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="#Converter-convert_to_DOCX">convert_to_DOCX</a>():&nbsp;Convert&nbsp;content&nbsp;to&nbsp;DOCX&nbsp;format.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="Converter-__init__"><strong>__init__</strong></a>(self, page)</dt><dd><span class="code">Initialize&nbsp;<a href="#Converter">Converter</a>&nbsp;<a href="builtins.html#object">object</a>.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;page&nbsp;(<a href="builtins.html#object">object</a>):&nbsp;The&nbsp;page&nbsp;<a href="builtins.html#object">object</a>&nbsp;to&nbsp;be&nbsp;converted.</span></dd></dl>
+
+<dl><dt><a name="Converter-convert_to_DOCX"><strong>convert_to_DOCX</strong></a>(self)</dt><dd><span class="code">Convert&nbsp;content&nbsp;to&nbsp;DOCX&nbsp;format.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tuple:&nbsp;A&nbsp;tuple&nbsp;containing&nbsp;DOCX&nbsp;content&nbsp;as&nbsp;base64&nbsp;and&nbsp;file&nbsp;size.</span></dd></dl>
+
+<dl><dt><a name="Converter-convert_to_HTML"><strong>convert_to_HTML</strong></a>(self)</dt><dd><span class="code">Convert&nbsp;content&nbsp;to&nbsp;HTML&nbsp;format.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tuple:&nbsp;A&nbsp;tuple&nbsp;containing&nbsp;HTML&nbsp;content&nbsp;as&nbsp;base64&nbsp;and&nbsp;file&nbsp;size.</span></dd></dl>
+
+<dl><dt><a name="Converter-convert_to_PDF"><strong>convert_to_PDF</strong></a>(self)</dt><dd><span class="code">Convert&nbsp;content&nbsp;to&nbsp;PDF&nbsp;format.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tuple:&nbsp;A&nbsp;tuple&nbsp;containing&nbsp;PDF&nbsp;content&nbsp;as&nbsp;base64&nbsp;and&nbsp;file&nbsp;size.</span></dd></dl>
+
+<dl><dt><a name="Converter-convert_to_TXT"><strong>convert_to_TXT</strong></a>(self)</dt><dd><span class="code">Convert&nbsp;content&nbsp;to&nbsp;plain&nbsp;text&nbsp;format.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;tuple:&nbsp;A&nbsp;tuple&nbsp;containing&nbsp;text&nbsp;content&nbsp;as&nbsp;base64&nbsp;and&nbsp;file&nbsp;size.</span></dd></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-get_file_size"><strong>get_file_size</strong></a>(data)</dt><dd><span class="code">Calculate&nbsp;the&nbsp;file&nbsp;size&nbsp;and&nbsp;format&nbsp;it&nbsp;for&nbsp;readability.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;data&nbsp;(bytes):&nbsp;The&nbsp;data&nbsp;to&nbsp;calculate&nbsp;the&nbsp;size&nbsp;for.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;str:&nbsp;A&nbsp;string&nbsp;with&nbsp;the&nbsp;formatted&nbsp;file&nbsp;size.</span></dd></dl>
+</td></tr></table>
+</body></html>

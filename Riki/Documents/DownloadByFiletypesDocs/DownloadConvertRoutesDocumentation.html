@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module wiki.web.routes</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title"><a href="wiki.html" class="white">wiki</a>.<a href="wiki.web.html" class="white">web</a>.routes</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Clogan%5Cdocuments%5Ccollege%20docs%5Ccsc%20440%5Cteambasicriki%5Criki%5Cwiki%5Cweb%5Croutes.py">c:\users\logan\documents\college docs\csc 440\teambasicriki\riki\wiki\web\routes.py</a></td></tr></table>
+    <p><span class="code">Routes<br>
+~~~~~~</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="base64.html">base64</a><br>
+</td><td class="multicolumn"></td><td class="multicolumn"></td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-convert"><strong>convert</strong></a>(url)</dt><dd><span class="code">Route&nbsp;to&nbsp;convert&nbsp;a&nbsp;wiki&nbsp;page&nbsp;to&nbsp;different&nbsp;file&nbsp;formats.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;(str):&nbsp;The&nbsp;URL&nbsp;path&nbsp;of&nbsp;the&nbsp;wiki&nbsp;page.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;flask.Response:&nbsp;The&nbsp;response&nbsp;containing&nbsp;the&nbsp;converted&nbsp;file.</span></dd></dl>
+ <dl><dt><a name="-create"><strong>create</strong></a>()</dt></dl>
+ <dl><dt><a name="-delete"><strong>delete</strong></a>(url)</dt></dl>
+ <dl><dt><a name="-display"><strong>display</strong></a>(url)</dt></dl>
+ <dl><dt><a name="-download"><strong>download</strong></a>(url)</dt><dd><span class="code">Route&nbsp;to&nbsp;download&nbsp;a&nbsp;wiki&nbsp;page&nbsp;in&nbsp;different&nbsp;file&nbsp;formats.<br>
+&nbsp;<br>
+Args:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;url&nbsp;(str):&nbsp;The&nbsp;URL&nbsp;path&nbsp;of&nbsp;the&nbsp;wiki&nbsp;page.<br>
+&nbsp;<br>
+Returns:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;flask.Response:&nbsp;The&nbsp;response&nbsp;containing&nbsp;the&nbsp;requested&nbsp;file.</span></dd></dl>
+ <dl><dt><a name="-edit"><strong>edit</strong></a>(url)</dt></dl>
+ <dl><dt><a name="-home"><strong>home</strong></a>()</dt></dl>
+ <dl><dt><a name="-index"><strong>index</strong></a>()</dt></dl>
+ <dl><dt><a name="-move"><strong>move</strong></a>(url)</dt></dl>
+ <dl><dt><a name="-page_not_found"><strong>page_not_found</strong></a>(error)</dt></dl>
+ <dl><dt><a name="-preview"><strong>preview</strong></a>()</dt></dl>
+ <dl><dt><a name="-search"><strong>search</strong></a>()</dt></dl>
+ <dl><dt><a name="-tag"><strong>tag</strong></a>(name)</dt></dl>
+ <dl><dt><a name="-tags"><strong>tags</strong></a>()</dt></dl>
+ <dl><dt><a name="-user_admin"><strong>user_admin</strong></a>(user_id)</dt></dl>
+ <dl><dt><a name="-user_create"><strong>user_create</strong></a>()</dt></dl>
+ <dl><dt><a name="-user_delete"><strong>user_delete</strong></a>(user_id)</dt></dl>
+ <dl><dt><a name="-user_index"><strong>user_index</strong></a>()</dt></dl>
+ <dl><dt><a name="-user_login"><strong>user_login</strong></a>()</dt></dl>
+ <dl><dt><a name="-user_logout"><strong>user_logout</strong></a>()</dt></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>bp</strong> = &lt;Blueprint 'wiki'&gt;<br>
+<strong>current_user</strong> = None<br>
+<strong>current_users</strong> = &lt;LocalProxy unbound&gt;<br>
+<strong>current_wiki</strong> = &lt;LocalProxy unbound&gt;<br>
+<strong>request</strong> = &lt;LocalProxy unbound&gt;</td></tr></table>
+</body></html>

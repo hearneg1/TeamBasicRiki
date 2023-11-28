@@ -2,19 +2,21 @@
     Routes
     ~~~~~~
 """
+import base64
+from io import BytesIO
+from flask import Blueprint, make_response, send_file
 from wiki.web.user import UserManager
-import os
-from flask import Blueprint
 from flask import flash
 from flask import redirect
 from flask import render_template
-from flask import request
 from flask import url_for
+from flask import request, jsonify
 from flask_login import current_user
 from flask_login import login_required
 from flask_login import login_user
 from flask_login import logout_user
 from wiki.core import Processor
+from wiki.web.converter import Converter, get_file_size
 from wiki.web.forms import EditorForm
 from wiki.web.forms import LoginForm
 from wiki.web.forms import SearchForm
@@ -98,6 +100,105 @@ def move(url):
         current_wiki.move(url, newurl)
         return redirect(url_for('wiki.display', url=newurl))
     return render_template('move.html', form=form, page=page)
+
+
+@bp.route('/download/<path:url>/', methods=['GET'])
+@protect
+def download(url):
+    """
+    Route to download a wiki page in different file formats.
+
+    Args:
+        url (str): The URL path of the wiki page.
+
+    Returns:
+        flask.Response: The response containing the requested file.
+
+    """
+    page = current_wiki.get_or_404(url)
+    filetype = request.args.get('fileType', 'txt')
+
+    if filetype.lower() == 'md':
+        # If the requested file type is md, directly send the markdown content
+        return send_file(
+            BytesIO(page.content.encode('utf-8')),
+            as_attachment=True,
+            download_name=f'{url}.{filetype}',
+            mimetype='text/markdown'
+        )
+    else:
+        converter = Converter(page)
+        conversion_method = getattr(converter, f'convert_to_{filetype.upper()}')
+        file_content, _ = conversion_method()
+
+        # Convert base64 to bytes
+        file_bytes = base64.b64decode(file_content)
+
+        return send_file(
+            BytesIO(file_bytes),
+            as_attachment=True,
+            download_name=f'{url}.{filetype}',
+            mimetype='application/octet-stream'
+        )
+
+
+@bp.route('/convert/<path:url>/', methods=['POST'])
+@protect
+def convert(url):
+    """
+    Route to convert a wiki page to different file formats.
+
+    Args:
+        url (str): The URL path of the wiki page.
+
+    Returns:
+        flask.Response: The response containing the converted file.
+
+    """
+    data = request.json
+    filetype = data.get('fileType')
+
+    if filetype is None:
+        return jsonify({'error': 'Invalid request. Missing fileType parameter.'}), 400
+
+    page = current_wiki.get_or_404(url)
+
+    try:
+        if filetype.lower() == 'md':
+            file_size_info = {
+                'fileType': filetype,
+                'fileSize': get_file_size(page.content),
+                'conversionStatus': 'Success',
+            }
+            response_data = {'result': file_size_info}
+        else:
+            converter = Converter(page)
+            conversion_method = getattr(converter, f'convert_to_{filetype.upper()}')
+            file_content, file_size = conversion_method()
+
+            response = make_response(file_content)
+            response.headers['Content-Disposition'] = f'attachment; filename={url}.{filetype}'
+            response.headers['Content-Type'] = 'application/octet-stream'
+            response.headers['Content-Length'] = str(len(file_content))
+
+            file_size_info = {
+                'fileType': filetype,
+                'fileSize': file_size,
+                'conversionStatus': 'Success',
+            }
+
+            response_data = {'result': file_size_info}
+    except Exception as e:
+        # If an exception occurs during conversion, set conversionStatus to 'Failed'
+        file_size_info = {
+            'fileType': filetype,
+            'fileSize': None,
+            'conversionStatus': 'Failed',
+            'error': str(e),
+        }
+        response_data = {'result': file_size_info}
+
+    return jsonify(response_data)
 
 
 @bp.route('/delete/<path:url>/')
