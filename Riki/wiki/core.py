@@ -237,6 +237,8 @@ class Page(object):
     def tags(self, value):
         self['tags'] = value
 
+    def get_path(self):
+        return self.path
 
 class Wiki(object):
     def __init__(self, root):
