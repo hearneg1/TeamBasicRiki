@@ -9,7 +9,6 @@ from flask import Blueprint, make_response, send_file
 from flask import flash
 from flask import redirect
 from flask import render_template
-from flask import request
 from flask import url_for
 from flask import request, jsonify
 from flask_login import current_user
@@ -102,6 +101,16 @@ def move(url):
 @bp.route('/download/<path:url>/', methods=['GET'])
 @protect
 def download(url):
+    """
+    Route to download a wiki page in different file formats.
+
+    Args:
+        url (str): The URL path of the wiki page.
+
+    Returns:
+        flask.Response: The response containing the requested file.
+
+    """
     page = current_wiki.get_or_404(url)
     filetype = request.args.get('fileType', 'txt')
 
@@ -114,7 +123,7 @@ def download(url):
             mimetype='text/markdown'
         )
     else:
-        converter = Converter(page, filetype)
+        converter = Converter(page)
         conversion_method = getattr(converter, f'convert_to_{filetype.upper()}')
         file_content, _ = conversion_method()
 
@@ -129,10 +138,19 @@ def download(url):
         )
 
 
-
 @bp.route('/convert/<path:url>/', methods=['POST'])
 @protect
 def convert(url):
+    """
+    Route to convert a wiki page to different file formats.
+
+    Args:
+        url (str): The URL path of the wiki page.
+
+    Returns:
+        flask.Response: The response containing the converted file.
+
+    """
     data = request.json
     filetype = data.get('fileType')
 
@@ -150,7 +168,7 @@ def convert(url):
             }
             response_data = {'result': file_size_info}
         else:
-            converter = Converter(page, filetype)
+            converter = Converter(page)
             conversion_method = getattr(converter, f'convert_to_{filetype.upper()}')
             file_content, file_size = conversion_method()
 

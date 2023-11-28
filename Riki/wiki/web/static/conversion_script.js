@@ -24,7 +24,7 @@ document.getElementById("convertBtn").addEventListener("click", function () {
             conversionResultElement.innerHTML = 'Conversion Information:<br>';
             conversionResultElement.innerHTML += 'File Type: ' + data.result.fileType + '<br>';
             conversionResultElement.innerHTML += 'File Size: ' + data.result.fileSize + '<br>';
-            
+
             if (data.result.conversionStatus !== undefined) {
                 conversionResultElement.innerHTML += 'Conversion Status: ' + data.result.conversionStatus + '<br>';
             }
