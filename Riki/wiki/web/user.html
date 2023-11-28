@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Python: module user</title>
+</head><body>
+
+<table class="heading">
+<tr class="heading-text decor">
+<td class="title">&nbsp;<br><strong class="title">user</strong></td>
+<td class="extra"><a href=".">index</a><br><a href="file:c%3A%5Cusers%5Cgeorg%5Cvenv%5Cp3%5Cteambasicriki%5Criki%5Cwiki%5Cweb%5Cuser.py">c:\users\georg\venv\p3\teambasicriki\riki\wiki\web\user.py</a></td></tr></table>
+    <p><span class="code"><a href="#User">User</a>&nbsp;classes&nbsp;&amp;&nbsp;helpers<br>
+~~~~~~~~~~~~~~~~~~~~~~</span></p>
+<p>
+<table class="section">
+<tr class="decor pkg-content-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Modules</strong></td></tr>
+    
+<tr><td class="decor pkg-content-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><table><tr><td class="multicolumn"><a href="binascii.html">binascii</a><br>
+<a href="hashlib.html">hashlib</a><br>
+</td><td class="multicolumn"><a href="json.html">json</a><br>
+<a href="os.html">os</a><br>
+</td><td class="multicolumn"><a href="uuid.html">uuid</a><br>
+</td><td class="multicolumn"></td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor index-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Classes</strong></td></tr>
+    
+<tr><td class="decor index-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl>
+<dt class="heading-text"><a href="builtins.html#object">builtins.object</a>
+</dt><dd>
+<dl>
+<dt class="heading-text"><a href="user.html#User">User</a>
+</dt><dt class="heading-text"><a href="user.html#UserManager">UserManager</a>
+</dt><dt class="heading-text"><a href="user.html#UserRegistrationController">UserRegistrationController</a>
+</dt></dl>
+</dd>
+</dl>
+ <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="User">class <strong>User</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#User">User</a>(manager,&nbsp;name,&nbsp;data)<br>
+&nbsp;<br>
+<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="User-__init__"><strong>__init__</strong></a>(self, manager, name, data)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="User-check_password"><strong>check_password</strong></a>(self, password)</dt><dd><span class="code">Return&nbsp;True,&nbsp;return&nbsp;False,&nbsp;or&nbsp;raise&nbsp;NotImplementedError&nbsp;if&nbsp;the<br>
+authentication_method&nbsp;is&nbsp;missing&nbsp;or&nbsp;unknown.</span></dd></dl>
+
+<dl><dt><a name="User-get"><strong>get</strong></a>(self, option)</dt></dl>
+
+<dl><dt><a name="User-get_id"><strong>get_id</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="User-is_active"><strong>is_active</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="User-is_anonymous"><strong>is_anonymous</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="User-is_authenticated"><strong>is_authenticated</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="User-save"><strong>save</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="User-set"><strong>set</strong></a>(self, option, value)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="UserManager">class <strong>UserManager</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#UserManager">UserManager</a>(path)<br>
+&nbsp;<br>
+A&nbsp;very&nbsp;simple&nbsp;user&nbsp;Manager,&nbsp;that&nbsp;saves&nbsp;it's&nbsp;data&nbsp;as&nbsp;json.<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="UserManager-__init__"><strong>__init__</strong></a>(self, path)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="UserManager-add_user"><strong>add_user</strong></a>(self, name, password, email, active=True, roles=[], authentication_method=None)</dt></dl>
+
+<dl><dt><a name="UserManager-delete_user"><strong>delete_user</strong></a>(self, name)</dt></dl>
+
+<dl><dt><a name="UserManager-get_user"><strong>get_user</strong></a>(self, name)</dt></dl>
+
+<dl><dt><a name="UserManager-read"><strong>read</strong></a>(self)</dt></dl>
+
+<dl><dt><a name="UserManager-update"><strong>update</strong></a>(self, name, userdata)</dt></dl>
+
+<dl><dt><a name="UserManager-write"><strong>write</strong></a>(self, data)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+</td></tr></table> <p>
+<table class="section">
+<tr class="decor title-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><a name="UserRegistrationController">class <strong>UserRegistrationController</strong></a>(<a href="builtins.html#object">builtins.object</a>)</td></tr>
+    
+<tr><td class="decor title-decor" rowspan=2><span class="code">&nbsp;&nbsp;&nbsp;</span></td>
+<td class="decor title-decor" colspan=2><span class="code"><a href="#UserRegistrationController">UserRegistrationController</a>(user_manager)<br>
+&nbsp;<br>
+<br>&nbsp;</span></td></tr>
+<tr><td>&nbsp;</td>
+<td class="singlecolumn">Methods defined here:<br>
+<dl><dt><a name="UserRegistrationController-__init__"><strong>__init__</strong></a>(self, user_manager)</dt><dd><span class="code">Initialize&nbsp;self.&nbsp;&nbsp;See&nbsp;help(type(self))&nbsp;for&nbsp;accurate&nbsp;signature.</span></dd></dl>
+
+<dl><dt><a name="UserRegistrationController-register_user"><strong>register_user</strong></a>(self, form)</dt></dl>
+
+<hr>
+Data descriptors defined here:<br>
+<dl><dt><strong>__dict__</strong></dt>
+<dd><span class="code">dictionary&nbsp;for&nbsp;instance&nbsp;variables&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+<dl><dt><strong>__weakref__</strong></dt>
+<dd><span class="code">list&nbsp;of&nbsp;weak&nbsp;references&nbsp;to&nbsp;the&nbsp;object&nbsp;(if&nbsp;defined)</span></dd>
+</dl>
+</td></tr></table></td></tr></table><p>
+<table class="section">
+<tr class="decor functions-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Functions</strong></td></tr>
+    
+<tr><td class="decor functions-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><dl><dt><a name="-check_hashed_password"><strong>check_hashed_password</strong></a>(password, salted_hash)</dt></dl>
+ <dl><dt><a name="-get_default_authentication_method"><strong>get_default_authentication_method</strong></a>()</dt></dl>
+ <dl><dt><a name="-make_salted_hash"><strong>make_salted_hash</strong></a>(password, salt=None)</dt></dl>
+ <dl><dt><a name="-protect"><strong>protect</strong></a>(f)</dt></dl>
+</td></tr></table><p>
+<table class="section">
+<tr class="decor data-decor heading-text">
+<td class="section-title" colspan=3>&nbsp;<br><strong class="bigsection">Data</strong></td></tr>
+    
+<tr><td class="decor data-decor"><span class="code">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td><td>&nbsp;</td>
+<td class="singlecolumn"><strong>current_app</strong> = &lt;LocalProxy unbound&gt;<br>
+<strong>current_user</strong> = None</td></tr></table>
+</body></html>

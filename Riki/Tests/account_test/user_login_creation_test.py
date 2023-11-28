@@ -1,12 +1,13 @@
 import os
 import sys
 import unittest
-from flask import Flask, url_for, redirect
+from flask import Flask, url_for, redirect, Blueprint
 from wiki import create_app
 from wiki.web.user import UserManager
 from wiki.web.user import UserRegistrationController
 from wiki.web.forms import RegisterForm
 
+bp = Blueprint('wiki', __name__)
 
 # to test run python -m unittest .\Tests\account_test\user_login_creation_test.py in command line
 

@@ -89,7 +89,7 @@ class UserRegistrationController:
     def __init__(self, user_manager):
         self.user_manager = user_manager
 
-    def register_user(self, form):
+    def form_field_validation(self, form):
         username = form.username.data
         password = form.password.data
         confirm_password = form.confirmPassword.data

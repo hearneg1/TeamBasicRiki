@@ -2,11 +2,13 @@ import os
 
 import unittest
 
+from flask import Blueprint
 from wiki import create_app
 from wiki.web.user import UserManager
 from wiki.web.user import UserRegistrationController
 from wiki.web.forms import RegisterForm
 
+bp = Blueprint('wiki', __name__)
 
 # to test run python -m unittest .\Tests\account_test\user_deletion_test.py in command line
 
