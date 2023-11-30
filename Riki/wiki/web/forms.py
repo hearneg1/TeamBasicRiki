@@ -7,8 +7,7 @@ from wtforms import BooleanField, SubmitField, EmailField
 from wtforms import StringField
 from wtforms import TextAreaField
 from wtforms import PasswordField
-from wtforms.validators import InputRequired,Length, Email, EqualTo
-
+from wtforms.validators import InputRequired, Length, Email, EqualTo
 from wtforms.validators import ValidationError
 
 from wiki.core import clean_url
@@ -58,14 +57,8 @@ class LoginForm(FlaskForm):
             raise ValidationError('Username and password do not match.')
 
 
-# class AccountForm(FlaskForm):
-#     username = StringField("", [InputRequired()])
-#     password = PasswordField("", [InputRequired()])
-#     confirmPassword = PasswordField("", [InputRequired()])
-#     email = EmailField("", [InputRequired()])
 
 
-from wtforms.validators import InputRequired, Length, Email, EqualTo
 
 class RegisterForm(FlaskForm):
     username = StringField("", [InputRequired(), Length(min=4, max=24)])
