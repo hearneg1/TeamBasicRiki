@@ -1,8 +1,15 @@
+"""
+This is the regression testing file. Use this file in order to run all of the unit tests at once. This saves
+the time of running each individually
+
+"""
+
+
 import unittest
 import os
 import sys
 project_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-sys.path.append(project_path)  # used to make test run, still need to run from command line
+sys.path.append(project_path)
 
 
 def run_tests():
