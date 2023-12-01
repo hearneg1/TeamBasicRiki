@@ -1,3 +1,21 @@
+"""
+This integration tests file houses the automated integration tests for the three new features
+
+Upload/Download Feature:
+This feature is tested through route calls and using a file storage object. Due to the nature of the download process,
+it had to be tested manually. See the manual integration test folder and acceptance tests.
+
+User Registration Feature:
+This feature was tested through both routes and objects.
+
+Wiki Download Feature:
+This feature could not be tested through routes but was thoroughly tested through acceptance tests.
+This file has mocked objects to test the rest of the feature.
+
+
+"""
+
+
 import os
 import sys
 import unittest
@@ -57,10 +75,13 @@ class test_file_upload_download_delete(unittest.TestCase):
             filename="test.docx",
             content_type="text/plain"
         )
+
+        #tests uploading the test file and asserts it is in the files
         upload_status = self.file_manager.upload_file(test_file)
         self.assertTrue(upload_status)
         self.assertIn(test_file.filename, self.file_manager.get_downloadable_files())
 
+        #tests deleting the test file and asserts it is not in the files
         delete_status = self.file_manager.delete_file(test_file.filename)
         self.assertTrue(delete_status)
         self.assertNotIn(test_file.filename, self.file_manager.get_downloadable_files())
@@ -99,13 +120,13 @@ class User_Registration_Testing(unittest.TestCase):
             'password': 'test_password'
         }
 
-        # creates new account
+        # creates new account and verifies it was added through the route
         response = self.client.post('/user/create/', data=testing, follow_redirects=True)
         decoded_response = response.data.decode('utf-8')
         self.assertEqual(response.status_code, 200)
         self.assertIn("User added successfully!", decoded_response)
 
-        # attempts login
+        # attempts login with test login and ensures successful login
         login_response = self.client.post('/user/login/', data=test_login_data, follow_redirects=True)
         decoded_response = login_response.data.decode('utf-8')
         self.assertEqual(login_response.status_code, 200)
@@ -129,7 +150,7 @@ class User_Registration_Testing(unittest.TestCase):
                 email='test_user@example.com'
             )
             # tests creating user by calling function directly
-            self.registration_controller.register_user(test_account_data)
+            self.registration_controller.form_field_validation(test_account_data)
             test_account_created = self.user_manager.get_user('test_user3')
             self.assertIsNotNone(test_account_created)
 
