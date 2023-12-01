@@ -13,12 +13,12 @@ sys.path.append(project_path)
 
 
 def run_tests():
-    test_suite = unittest.TestSuite()
-    test_suite.addTests(unittest.TestLoader().discover('Tests/account_test', pattern='*_test.py'))
-    test_suite.addTests(unittest.TestLoader().discover('Tests/file_storage_test', pattern='*_test.py'))
-    test_suite.addTests(unittest.TestLoader().discover('Tests/wiki_download_test', pattern='*_test.py'))
-    run_test_suite = unittest.TextTestRunner()
-    run_test_suite.run(test_suite)
+    regression_test = unittest.TestSuite()
+    regression_test.addTests(unittest.TestLoader().discover('Tests/account_test', pattern='*_test.py'))
+    regression_test.addTests(unittest.TestLoader().discover('Tests/file_storage_test', pattern='*_test.py'))
+    regression_test.addTests(unittest.TestLoader().discover('Tests/wiki_download_test', pattern='*_test.py'))
+    run_regression = unittest.TextTestRunner()
+    run_regression.run(regression_test)
 
 
 if __name__ == "__main__":
