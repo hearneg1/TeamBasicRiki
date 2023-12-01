@@ -33,5 +33,15 @@
     "email": "g@gmai.com",
     "is_anonymous": false,
     "password": "pass"
+  },
+  "new_user2": {
+    "id": "ae419743-ef95-4325-bd86-df248f407f5a",
+    "active": true,
+    "roles": [],
+    "authentication_method": "cleartext",
+    "authenticated": false,
+    "email": "new_user@example.com",
+    "is_anonymous": false,
+    "password": "new_password"
   }
 }
