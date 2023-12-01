@@ -4,7 +4,7 @@ import unittest
 from werkzeug.datastructures import FileStorage
 
 sys.path.append(os.path.join(os.getcwd(), "wiki"))  # used to make test run, still need to run from command line
-from wiki.web.file_storage import FileManager  # run with python -m unittest Tests/file_storage_test.py
+from wiki.web.file_storage import FileManager  # run with python -m unittest Tests/file_storage_test/file_storage_test.py
 
 
 class TestFileStorage(unittest.TestCase):
