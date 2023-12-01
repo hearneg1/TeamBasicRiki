@@ -35,7 +35,7 @@ class UserRegistrationControllerTestCase(unittest.TestCase):
 
         # register_user method for regristation
         with self.app.test_request_context():
-            result = self.registration_controller.register_user(form)
+            result = self.registration_controller.form_field_validation(form)
 
         # Print the result for debugging
         # print("Result:", result)
@@ -66,7 +66,7 @@ class UserRegistrationControllerTestCase(unittest.TestCase):
 
             # register_user method for regristation
             with self.app.test_request_context():
-                result = self.registration_controller.register_user(form)
+                result = self.registration_controller.form_field_validation(form)
 
         # Create an initial user with the same username
         with self.app.test_request_context():
@@ -80,7 +80,7 @@ class UserRegistrationControllerTestCase(unittest.TestCase):
 
             # Use the register_user method to register the user
         with self.app.test_request_context():
-            result = self.registration_controller.register_user(form)
+            result = self.registration_controller.form_field_validation(form)
 
             # Print the result for debugging
         # print("Result:", result)
@@ -113,7 +113,7 @@ class UserRegistrationControllerTestCase(unittest.TestCase):
 
         # Use the register_user method to attempt registration with mismatched passwords
         with self.app.test_request_context():
-            result = self.registration_controller.register_user(form)
+            result = self.registration_controller.form_field_validation(form)
 
         # Print the result for debugging
         # print("Result:", result)
@@ -143,7 +143,7 @@ class UserRegistrationControllerTestCase(unittest.TestCase):
 
             # register_user method for regristation
             with self.app.test_request_context():
-                result = self.registration_controller.register_user(form)
+                result = self.registration_controller.form_field_validation(form)
         self.assertIsNotNone(initial_user, "User 'test_user' should exist before deletion")
 
         # Delete the user

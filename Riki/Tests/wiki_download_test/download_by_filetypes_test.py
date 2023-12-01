@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock
-from wiki.web.converter import Converter, get_file_size
+from wiki.web.converter import Converter, get_file_size # run with python -m unittest Tests/wiki_download_test/download_by_filetypes_test.py
 
 
 class TestConverter(unittest.TestCase):
