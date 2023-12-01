@@ -1,6 +1,32 @@
 """
-    User classes & helpers
-    ~~~~~~~~~~~~~~~~~~~~~~
+User Classes & Helpers
+~~~~~~~~~~~~~~~~~~~~~~
+
+This module defines classes and helpers for user management in a Flask application.
+
+Classes:
+- `UserManager`: A simple user manager that saves user data as JSON.
+- `UserRegistrationController`: Handles user registration and form field validation.
+- `User`: Represents a user with methods for retrieving and updating user data.
+
+Helpers:
+- `get_default_authentication_method`: Gets the default authentication method from the Flask app configuration.
+- `make_salted_hash`: Generates a salted hash for a given password.
+- `check_hashed_password`: Checks if a password matches a hashed password.
+- `protect`: Decorator to protect routes based on the authentication status.
+
+Usage:
+    To use these classes and helpers, import them into your Flask application and
+    instantiate the `UserManager` to manage user-related operations.
+
+Example:
+    user_manager = UserManager('/path/to/user_data')
+    new_user = user_manager.add_user('username', 'password', email='user@example.com')
+    if new_user:
+        print(f"User {new_user.name} added successfully!")
+
+Note:
+    This is a basic implementation, and you may want to enhance it based on your application's requirements.
 """
 import os
 import json
