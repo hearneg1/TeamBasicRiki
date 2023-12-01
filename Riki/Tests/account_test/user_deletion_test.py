@@ -25,7 +25,7 @@ class UserDeletionTestCases(unittest.TestCase):
 
             # Use the register_user method to register the user
             with self.app.test_request_context():
-                result = self.registration_controller.register_user(form)
+                result = self.registration_controller.form_field_validation(form)
 
     def setUp(self):
         directory = os.getcwd()
